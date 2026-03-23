@@ -22,11 +22,17 @@ namespace FoodInspectionService.Controllers
         {
             return View();
         }
+        public IActionResult TestError()
+        {
+            throw new Exception("Test exception for global error handling");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            _logger.LogError("Global error page displayed.");
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }
