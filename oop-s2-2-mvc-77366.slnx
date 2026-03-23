@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="FoodInspectionService.Tests/FoodInspectionService.Tests.csproj" Id="c2684d69-715c-4e6f-8eb5-683ede3e33ac" />
   <Project Path="oop-s2-2-mvc-77366/FoodInspectionService.csproj" />
 </Solution>
