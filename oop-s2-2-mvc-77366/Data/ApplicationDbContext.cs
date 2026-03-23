@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using oop_s2_2_mvc_77366.Models;
+using FoodInspectionService.Models;
 
-namespace oop_s2_2_mvc_77366.Data
+namespace FoodInspectionService.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

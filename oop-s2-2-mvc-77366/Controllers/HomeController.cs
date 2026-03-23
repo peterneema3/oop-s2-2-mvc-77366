@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using oop_s2_2_mvc_77366.Models;
+using FoodInspectionService.Models;
 using System.Diagnostics;
 
-namespace oop_s2_2_mvc_77366.Controllers
+namespace FoodInspectionService.Controllers
 {
     public class HomeController : Controller
     {

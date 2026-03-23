@@ -1,7 +1,7 @@
-﻿using oop_s2_2_mvc_77366.Models;
+﻿using FoodInspectionService.Models;
 using Bogus;
 
-namespace oop_s2_2_mvc_77366.Data
+namespace FoodInspectionService.Data
 {
 
     public static class DbInitializer

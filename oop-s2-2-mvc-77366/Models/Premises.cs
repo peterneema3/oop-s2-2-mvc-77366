@@ -1,4 +1,4 @@
-﻿namespace oop_s2_2_mvc_77366.Models
+﻿namespace FoodInspectionService.Models
 {
     public class Premises
     {

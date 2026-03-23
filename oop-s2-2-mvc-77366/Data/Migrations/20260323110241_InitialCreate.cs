@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace oop_s2_2_mvc_77366.Data.Migrations
+namespace FoodInspectionService.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

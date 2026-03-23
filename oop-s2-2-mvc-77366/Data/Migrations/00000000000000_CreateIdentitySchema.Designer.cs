@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using oop_s2_2_mvc_77366.Data;
+using FoodInspectionService.Data;
 using System;
 
-namespace oop_s2_2_mvc_77366.Data.Migrations
+namespace FoodInspectionService.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]

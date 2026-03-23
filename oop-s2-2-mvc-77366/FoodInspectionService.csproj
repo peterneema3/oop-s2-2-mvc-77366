@@ -4,8 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-oop_s2_2_mvc_77366-9b5abdb2-9ce0-460f-bd40-6e16122654ec</UserSecretsId>
-    <RootNamespace>oop_s2_2_mvc_77366</RootNamespace>
+    <UserSecretsId>aspnet-FoodInspectionService-9b5abdb2-9ce0-460f-bd40-6e16122654ec</UserSecretsId>
+    <RootNamespace>FoodInspectionService</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.23" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
   </ItemGroup>
 
 </Project>

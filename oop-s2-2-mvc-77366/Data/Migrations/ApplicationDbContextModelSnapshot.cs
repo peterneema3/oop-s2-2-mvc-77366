@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using oop_s2_2_mvc_77366.Data;
+using FoodInspectionService.Data;
 
 #nullable disable
 
-namespace oop_s2_2_mvc_77366.Data.Migrations
+namespace FoodInspectionService.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -224,7 +224,7 @@ namespace oop_s2_2_mvc_77366.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("oop_s2_2_mvc_77366.Models.FollowUp", b =>
+            modelBuilder.Entity("FoodInspectionService.Models.FollowUp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -252,7 +252,7 @@ namespace oop_s2_2_mvc_77366.Data.Migrations
                     b.ToTable("FollowUps");
                 });
 
-            modelBuilder.Entity("oop_s2_2_mvc_77366.Models.Inspection", b =>
+            modelBuilder.Entity("FoodInspectionService.Models.Inspection", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -284,7 +284,7 @@ namespace oop_s2_2_mvc_77366.Data.Migrations
                     b.ToTable("Inspections");
                 });
 
-            modelBuilder.Entity("oop_s2_2_mvc_77366.Models.Premises", b =>
+            modelBuilder.Entity("FoodInspectionService.Models.Premises", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -364,9 +364,9 @@ namespace oop_s2_2_mvc_77366.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("oop_s2_2_mvc_77366.Models.FollowUp", b =>
+            modelBuilder.Entity("FoodInspectionService.Models.FollowUp", b =>
                 {
-                    b.HasOne("oop_s2_2_mvc_77366.Models.Inspection", "Inspection")
+                    b.HasOne("FoodInspectionService.Models.Inspection", "Inspection")
                         .WithMany("FollowUps")
                         .HasForeignKey("InspectionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -375,9 +375,9 @@ namespace oop_s2_2_mvc_77366.Data.Migrations
                     b.Navigation("Inspection");
                 });
 
-            modelBuilder.Entity("oop_s2_2_mvc_77366.Models.Inspection", b =>
+            modelBuilder.Entity("FoodInspectionService.Models.Inspection", b =>
                 {
-                    b.HasOne("oop_s2_2_mvc_77366.Models.Premises", "Premises")
+                    b.HasOne("FoodInspectionService.Models.Premises", "Premises")
                         .WithMany("Inspections")
                         .HasForeignKey("PremisesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -386,12 +386,12 @@ namespace oop_s2_2_mvc_77366.Data.Migrations
                     b.Navigation("Premises");
                 });
 
-            modelBuilder.Entity("oop_s2_2_mvc_77366.Models.Inspection", b =>
+            modelBuilder.Entity("FoodInspectionService.Models.Inspection", b =>
                 {
                     b.Navigation("FollowUps");
                 });
 
-            modelBuilder.Entity("oop_s2_2_mvc_77366.Models.Premises", b =>
+            modelBuilder.Entity("FoodInspectionService.Models.Premises", b =>
                 {
                     b.Navigation("Inspections");
                 });

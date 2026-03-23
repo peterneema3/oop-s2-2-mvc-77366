@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace oop_s2_2_mvc_77366.Data.Migrations
+namespace FoodInspectionService.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
