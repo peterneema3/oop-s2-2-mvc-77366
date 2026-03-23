@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FoodInspectionService.Data;
+using FoodInspectionService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using FoodInspectionService.Data;
-using FoodInspectionService.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FoodInspectionService.Controllers
 {
+    [Authorize(Roles = "Admin,Inspector")]
     public class InspectionsController : Controller
     {
         private readonly ApplicationDbContext _context;
