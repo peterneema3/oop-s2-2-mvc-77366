@@ -22,27 +22,19 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Seed database
+// Seed database + roles + admin user
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+    // Seed fake data
     DbInitializer.Seed(context);
-}
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseMigrationsEndPoint();
-}
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
+    // Create roles
     string[] roles = { "Admin", "Inspector", "Viewer" };
 
     foreach (var role in roles)
@@ -52,13 +44,10 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
-}
-using (var scope = app.Services.CreateScope())
-{
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-    string adminEmail = "admin@test.com";
-    string adminPassword = "Admin123!";
+    // Create admin user
+    string adminEmail = "neemapr3@gmail.com";
+    string adminPassword = "Fawe20202021!";
 
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -73,13 +62,29 @@ using (var scope = app.Services.CreateScope())
 
         var result = await userManager.CreateAsync(adminUser, adminPassword);
 
-        if (result.Succeeded)
+        if (!result.Succeeded)
         {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
+            throw new Exception("Admin user could not be created.");
         }
+    }
+
+    // Ensure admin is always in Admin role
+    if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+    {
+        await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 }
 
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
