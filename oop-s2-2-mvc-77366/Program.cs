@@ -57,7 +57,6 @@ using (var scope = app.Services.CreateScope())
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
 
-    // Make sure DB and migrations are applied first
     context.Database.Migrate();
 
     // Seed fake data
@@ -97,7 +96,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    // Ensure admin is always in Admin role
+    
     if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
     {
         await userManager.AddToRoleAsync(adminUser, "Admin");
