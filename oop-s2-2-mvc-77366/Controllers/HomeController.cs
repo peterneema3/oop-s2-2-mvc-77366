@@ -15,24 +15,33 @@ namespace FoodInspectionService.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Home page viewed.");
             return View();
         }
 
         public IActionResult Privacy()
         {
+            _logger.LogInformation("Privacy page viewed.");
             return View();
         }
+
         public IActionResult TestError()
         {
+            _logger.LogWarning("TestError endpoint triggered deliberately.");
             throw new Exception("Test exception for global error handling");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            _logger.LogError("Global error page displayed.");
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+            var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
 
+            _logger.LogError("Global error page displayed. RequestId: {RequestId}", requestId);
+
+            return View(new ErrorViewModel
+            {
+                RequestId = requestId
+            });
+        }
     }
 }

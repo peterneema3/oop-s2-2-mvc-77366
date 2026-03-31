@@ -43,7 +43,10 @@ namespace FoodInspectionService.Controllers
                 return NotFound();
             }
 
-            _logger.LogInformation("Premises details viewed. PremisesId: {PremisesId}", premises.Id);
+            _logger.LogInformation(
+                "Premises details viewed. PremisesId: {PremisesId}, Name: {Name}, Town: {Town}, RiskRating: {RiskRating}",
+                premises.Id, premises.Name, premises.Town, premises.RiskRating);
+
             return View(premises);
         }
 
@@ -63,22 +66,58 @@ namespace FoodInspectionService.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    _logger.LogWarning("Premises creation failed validation. Name: {Name}, Town: {Town}",
-                        premises.Name, premises.Town);
+                    _logger.LogWarning(
+                        "Premises creation failed validation. Name: {Name}, Town: {Town}, RiskRating: {RiskRating}",
+                        premises.Name, premises.Town, premises.RiskRating);
+
+                    return View(premises);
+                }
+
+                if (string.IsNullOrWhiteSpace(premises.Name))
+                {
+                    _logger.LogWarning("Premises creation blocked. Name is required.");
+                    ModelState.AddModelError("Name", "Name is required.");
+                    return View(premises);
+                }
+
+                if (string.IsNullOrWhiteSpace(premises.Address))
+                {
+                    _logger.LogWarning("Premises creation blocked. Address is required.");
+                    ModelState.AddModelError("Address", "Address is required.");
+                    return View(premises);
+                }
+
+                if (string.IsNullOrWhiteSpace(premises.Town))
+                {
+                    _logger.LogWarning("Premises creation blocked. Town is required.");
+                    ModelState.AddModelError("Town", "Town is required.");
+                    return View(premises);
+                }
+
+                var validRiskRatings = new[] { "Low", "Medium", "High" };
+                if (string.IsNullOrWhiteSpace(premises.RiskRating) || !validRiskRatings.Contains(premises.RiskRating))
+                {
+                    _logger.LogWarning(
+                        "Premises creation blocked. Invalid RiskRating: {RiskRating}",
+                        premises.RiskRating);
+
+                    ModelState.AddModelError("RiskRating", "RiskRating must be Low, Medium, or High.");
                     return View(premises);
                 }
 
                 _context.Add(premises);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Premises created. PremisesId: {PremisesId}, Name: {Name}, Town: {Town}, RiskRating: {RiskRating}",
+                _logger.LogInformation(
+                    "Premises created. PremisesId: {PremisesId}, Name: {Name}, Town: {Town}, RiskRating: {RiskRating}",
                     premises.Id, premises.Name, premises.Town, premises.RiskRating);
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating premises. Name: {Name}, Town: {Town}",
+                _logger.LogError(ex,
+                    "Error creating premises. Name: {Name}, Town: {Town}",
                     premises.Name, premises.Town);
                 throw;
             }
@@ -111,24 +150,68 @@ namespace FoodInspectionService.Controllers
         {
             if (id != premises.Id)
             {
-                _logger.LogWarning("Premises edit id mismatch. RouteId: {RouteId}, PremisesId: {PremisesId}",
+                _logger.LogWarning(
+                    "Premises edit id mismatch. RouteId: {RouteId}, PremisesId: {PremisesId}",
                     id, premises.Id);
                 return NotFound();
             }
 
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Premises update failed validation. PremisesId: {PremisesId}",
+                _logger.LogWarning(
+                    "Premises update failed validation. PremisesId: {PremisesId}",
                     premises.Id);
                 return View(premises);
             }
 
             try
             {
+                if (string.IsNullOrWhiteSpace(premises.Name))
+                {
+                    _logger.LogWarning(
+                        "Premises update blocked. Name is required. PremisesId: {PremisesId}",
+                        premises.Id);
+
+                    ModelState.AddModelError("Name", "Name is required.");
+                    return View(premises);
+                }
+
+                if (string.IsNullOrWhiteSpace(premises.Address))
+                {
+                    _logger.LogWarning(
+                        "Premises update blocked. Address is required. PremisesId: {PremisesId}",
+                        premises.Id);
+
+                    ModelState.AddModelError("Address", "Address is required.");
+                    return View(premises);
+                }
+
+                if (string.IsNullOrWhiteSpace(premises.Town))
+                {
+                    _logger.LogWarning(
+                        "Premises update blocked. Town is required. PremisesId: {PremisesId}",
+                        premises.Id);
+
+                    ModelState.AddModelError("Town", "Town is required.");
+                    return View(premises);
+                }
+
+                var validRiskRatings = new[] { "Low", "Medium", "High" };
+                if (string.IsNullOrWhiteSpace(premises.RiskRating) || !validRiskRatings.Contains(premises.RiskRating))
+                {
+                    _logger.LogWarning(
+                        "Premises update blocked. Invalid RiskRating: {RiskRating}, PremisesId: {PremisesId}",
+                        premises.RiskRating, premises.Id);
+
+                    ModelState.AddModelError("RiskRating", "RiskRating must be Low, Medium, or High.");
+                    return View(premises);
+                }
+
                 _context.Update(premises);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Premises updated. PremisesId: {PremisesId}, Name: {Name}, Town: {Town}, RiskRating: {RiskRating}",
+                _logger.LogInformation(
+                    "Premises updated. PremisesId: {PremisesId}, Name: {Name}, Town: {Town}, RiskRating: {RiskRating}",
                     premises.Id, premises.Name, premises.Town, premises.RiskRating);
 
                 return RedirectToAction(nameof(Index));
@@ -137,18 +220,21 @@ namespace FoodInspectionService.Controllers
             {
                 if (!PremisesExists(premises.Id))
                 {
-                    _logger.LogWarning("Premises update failed because record was not found. PremisesId: {PremisesId}",
+                    _logger.LogWarning(
+                        "Premises update failed because record was not found. PremisesId: {PremisesId}",
                         premises.Id);
                     return NotFound();
                 }
 
-                _logger.LogError(ex, "Concurrency error updating premises. PremisesId: {PremisesId}",
+                _logger.LogError(ex,
+                    "Concurrency error updating premises. PremisesId: {PremisesId}",
                     premises.Id);
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating premises. PremisesId: {PremisesId}",
+                _logger.LogError(ex,
+                    "Error updating premises. PremisesId: {PremisesId}",
                     premises.Id);
                 throw;
             }
@@ -187,21 +273,26 @@ namespace FoodInspectionService.Controllers
 
                 if (premises == null)
                 {
-                    _logger.LogWarning("Premises delete failed because record was not found. PremisesId: {PremisesId}", id);
+                    _logger.LogWarning(
+                        "Premises delete failed because record was not found. PremisesId: {PremisesId}",
+                        id);
                     return NotFound();
                 }
 
                 _context.Premises.Remove(premises);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Premises deleted. PremisesId: {PremisesId}, Name: {Name}",
+                _logger.LogInformation(
+                    "Premises deleted. PremisesId: {PremisesId}, Name: {Name}",
                     premises.Id, premises.Name);
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting premises. PremisesId: {PremisesId}", id);
+                _logger.LogError(ex,
+                    "Error deleting premises. PremisesId: {PremisesId}",
+                    id);
                 throw;
             }
         }
